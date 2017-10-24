@@ -187,6 +187,32 @@ int check_csv_format(char *name, char path[]){
         -> no we need to check for contents inside**/
 	char header[1000] = "color,director_name,num_critic_for_reviews,duration,director_facebook_likes,actor_3_facebook_likes,actor_2_name,actor_1_facebook_likes,gross,genres,actor_1_name,movie_title,num_voted_users,cast_total_facebook_likes,actor_3_name,facenumber_in_poster,plot_keywords,movie_imdb_link,num_user_for_reviews,language,country,content_rating,budget,title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes,";
 
+
+
+    /**openning the file checking its header contents to make sure it is the right format inside csv file**/
+    FILE * file = fopen(path,"r");
+
+    /**if could not open the file**/
+    if (file == NULL){
+
+        printf("Unable to open csv file: %s\n", name);
+        return -1;
+    }
+
+    /**we have the file open now
+        ->get header
+        ->check header
+    **/
+    char line[1000];
+    fgets(line,1000,file);
+
+    /**not the right header**/
+    if (strcasecmp(line,header)!=0){
+        printf("incorrect header in the csv file: %s\n", name);
+
+        return -1;
+    }
+
     return 0;
 
 }
@@ -325,44 +351,4 @@ void find_csv_files(char *directory_name){
 
 
 
-
-/*int main(void){
-
-        char path[1048];
-        char* initial_dir = "C:\\users\\imran\\desktop\\interviews";
-
-	   DIR *d;
-	   struct dirent *dir;
-	   struct stat info;
-
-
-	   d = opendir(initial_dir);
-
-	   if (d){
-
-
-            while ((dir = readdir(d))!=NULL){
-
-                    if (dir->d_name[0] != '.'){
-
-
-
-
-                        dir_name(initial_dir, dir->d_name ,path);
-                        printf("dir: %s\nlength: %d\nDir: %s\n\n", dir->d_name,dir->d_namlen,path);
-
-
-                }
-
-            }
-
-
-
-	   }else{
-
-            printf("Could not open the directory");
-	   }
-
-
-	}*/
 
