@@ -20,7 +20,7 @@ version:1
 
 
 /**header for recursive method**/
-int find_csv_files(char*, char*);
+int find_csv_files(char*);
 
 /**header for checking the method**/
 int check_csv_format(char*, char[]);
@@ -57,9 +57,6 @@ char temp_sort[50];
 
 /**file object where you will be putting the numbers of process**/
 FILE* num_file ;
-
-/**file object for heiarchy**/
-FILE* extra_2;
 
 
 
@@ -156,51 +153,31 @@ int main(int argc, char * argv[]){
 	/**initalizing the file where program will printin its number of process**/
 	num_file = fopen("child_process", "w");
 
-	/**opening the file where the heiarchy will be printed**/
-	extra_2 = fopen("Heirarchy","w");
-
     	if(num_file==NULL){
 
 		printf("CHILD PROCESS FILE FAILED TO OPEN\n");
 
 	}
 
-	if (extra_2 ==NULL){
-
-		
-		printf("HEIARCHY FILE FAILED TO OPEN\n");
-	}
-
-
-
-	
 
 
 	/** call the recursive method
 		->print parent pid
 		-> wiht dir name
-	**/
 
+	**/
 	/**printing parent ID**/
 	printf("Parent PID: %d\n",getpid());
 	int parent_pid = getpid();
 
-
-
-	/**printing the heiarch of the parent**/
-	fprintf(extra_2,"Parent: %s\n",initial_dir_name);
-	
-
-
 	/**calling recursive function**/
-	
-	find_csv_files(initial_dir_name, "\t");
+	find_csv_files(initial_dir_name);
 
 	/** if the child process returned we simply retrun back
 	 ->else: if it a main parent: we proceed below**/
 	if (getpid() !=parent_pid){return 0 ;}
 
-	 
+
 
 	/**anything beyond this point only happens once in the main parent**/
 
@@ -224,7 +201,6 @@ int main(int argc, char * argv[]){
 	
 
 	fclose(num_file);
-	fclose(extra_2);
 }	
 
 
@@ -291,7 +267,7 @@ int check_csv_format(char *name, char path[]){
 
     /**not the right header**/
     if (strcasecmp(line,header)!=0){
-        //printf("incorrect header in the csv file: %s\n", name);
+        printf("incorrect header in the csv file: %s\n", name);
 	fclose(file);
         return -1;
     }
@@ -371,9 +347,8 @@ void get_output_name(char directory[], char name[],char output[],int check ){
 
 
 /** Function that finds the csv files and SORTS them, and if encountered with sub Directoris it calls itself**/
-int find_csv_files(char *directory_name, char tab[]){
+int find_csv_files(char *directory_name){
 
-	
 
 	/**this is our arraylist strucutre where we add all pids of the parent children**/
 	int track=0,limit=20;
@@ -400,7 +375,7 @@ int find_csv_files(char *directory_name, char tab[]){
 
 
 	   /**error checking for the initial directory**/
-	   if (!director){ return -1;}
+	   if (!director){ return;}
 
 
 
@@ -431,9 +406,8 @@ int find_csv_files(char *directory_name, char tab[]){
                 //int id= 0 ;
                 /**if child calls the recursive function with new sub dir**/
                 if(id==0){
-			
-		    
-                    find_csv_files(path, "");
+
+                    find_csv_files(path);
                     //fork_output.write(getPID())
                     //printf("SUB_DIR: %s\nThe Path is: %s\n\n", each_dir->d_name,path);
 		    return 0;
