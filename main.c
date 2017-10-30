@@ -188,7 +188,8 @@ int main(int argc, char * argv[]){
 
 
 	/**printing the heiarch of the parent**/
-	fprintf(extra_2,"Parent: %s\n",initial_dir_name);
+	fprintf(extra_2,"[%s: PID: %d]\n\n\n",initial_dir_name,parent_pid);
+	fflush(extra_2);
 	
 
 
@@ -198,7 +199,7 @@ int main(int argc, char * argv[]){
 
 	/** if the child process returned we simply retrun back
 	 ->else: if it a main parent: we proceed below**/
-	if (getpid() !=parent_pid){return 0 ;}
+	if (getpid() !=parent_pid){exit(0) ;}
 
 	 
 
@@ -431,9 +432,16 @@ int find_csv_files(char *directory_name, char tab[]){
                 //int id= 0 ;
                 /**if child calls the recursive function with new sub dir**/
                 if(id==0){
+
+		  /**writing in the heiarchy file: extra_credit part:2**/
+		   fprintf(extra_2,"%s[%s: PID: %d]\n\n\n",tab,path,getpid());
+		   fflush(extra_2);
 			
-		    
-                    find_csv_files(path, "");
+		    char tab_next[255] = "\t";
+		    strcat(tab_next, tab);
+
+
+                    find_csv_files(path, tab_next);
                     //fork_output.write(getPID())
                     //printf("SUB_DIR: %s\nThe Path is: %s\n\n", each_dir->d_name,path);
 		    return 0;
@@ -474,6 +482,9 @@ int find_csv_files(char *directory_name, char tab[]){
                     /**If its a child, call the sorter function**/
                     if (id==0){
 
+			/**printing the heiarchy**/
+			fprintf(extra_2,"%s[%s: PID: %d]\n\n\n",tab,path,getpid());
+		   	fflush(extra_2);
                         //printf("CSV_FILE: %s\nThe Path is: %s\n\n", each_dir->d_name,path);
 		
 			/**name of the file to output the sorted results to **/
