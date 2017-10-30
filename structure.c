@@ -9,6 +9,8 @@ int check_csv_format(FILE*)
 /**File Where all the forking information will written to**/
 FILE * fork_output;
 
+/**file where you put the numbers of children each parent forked**/
+FILE* child_process
 
 
 int main(int argc, char * argv[]){
@@ -35,7 +37,16 @@ int main(int argc, char * argv[]){
 	find_csv_files(initial_dir)
 	
 
+	
+	/**retrieve the number of children each parent forked from child_process file**/
+	while (child_process){
 
+		num_of_children += read(child_process);
+
+	}
+
+	printf("the number of child processes are: %d\n", num_of_children);
+	return;
 
 
 }
@@ -46,6 +57,9 @@ int main(int argc, char * argv[]){
 
 /** Function that finds the csv files and SORTS them, and if encountered with sub Directoris it calls itself**/
 void find_csv_files(FILE* dir){
+
+	/** making a array list where all the pids of chilren will be stored**/
+	arraylist;
 
 
 	/**runs a loop until no files left in the dir**/
@@ -68,8 +82,8 @@ void find_csv_files(FILE* dir){
 
 			}else{
 
-				/**if parent: wait for the child**/
-				wait(id)
+				/**if parent: add the pid of children to the arraylist**/
+				arraylist.add(id);
 
 
 			}
@@ -99,9 +113,8 @@ void find_csv_files(FILE* dir){
 				}else{
 
 					/**if it is a parent
-						->for the child**/
-					wait(id)
-					continue
+						-> add the pid of the children into arraylist**/
+					arraylist.add(id)
 
 				}
 
@@ -122,6 +135,19 @@ void find_csv_files(FILE* dir){
 
 		return;
 
+
+	} /**LOOP ends here**/
+
+
+	/**for each parent: write the number of children it has forked into the child_process FILE**/
+	child_process.write(arralist.size());
+
+
+	
+	/**run a arraylist and wait for all the children that the parent has forked**/
+	for (Arraylist pid :int){
+
+		wait(pid);
 
 	}
 
