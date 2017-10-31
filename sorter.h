@@ -4,6 +4,40 @@
 #include<string.h>
 #include<ctype.h>
 #include<math.h>
+#include <sys/types.h>
+#include<sys/stat.h>
+#include <unistd.h>
+#include <dirent.h>
+
+
+
+/**header for recursive method**/
+int find_csv_files(char*, char*);
+
+/**header for checking the method**/
+int check_csv_format(char*, char[]);
+
+/**header and implementation for the dir_name**/
+void dir_name(char* ,char *, char[], int);
+
+
+/**File Where all the forking information will written to**/
+FILE * fork_output;
+
+/**output DIR Name**/
+char output_dir_name[1048];
+
+/**global variable to sort**/
+char temp_sort[50];
+
+
+/**file object where you will be putting the numbers of process**/
+FILE* num_file ;
+
+/**file object for heiarchy**/
+FILE* extra_2;
+
+
 
 /** Structure For Each Row **/
 typedef struct movies Movie;
