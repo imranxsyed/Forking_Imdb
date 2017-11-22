@@ -129,7 +129,7 @@ int main(int argc, char * argv[]){
 
 	}
 	
-
+	
 	strcpy(temp_sort,argv[2]);
 
 
@@ -175,6 +175,8 @@ int main(int argc, char * argv[]){
 
 
 	/**calling recursive function**/
+	//printf("the initial dir is: %s\n", initial_dir_name);
+	//printf("the output dir is: %s\n", output_dir_name);
 	
 	find_csv_files(initial_dir_name, "\t");
 
@@ -248,36 +250,53 @@ int check_csv_format(char *name, char path[]){
          //printf("NON_CSV_FILE: %s\nPath is: %s\n\n",name, path);
         return -1;
     }
-    /** at this time we know we have a file with a csv format
-        -> no we need to check for contents inside**/
-	char header[1000] = "color,director_name,num_critic_for_reviews,duration,director_facebook_likes,actor_3_facebook_likes,actor_2_name,actor_1_facebook_likes,gross,genres,actor_1_name,movie_title,num_voted_users,cast_total_facebook_likes,actor_3_name,facenumber_in_poster,plot_keywords,movie_imdb_link,num_user_for_reviews,language,country,content_rating,budget,title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes,\n";
+
+
+	int index=0;
+        char output[50];
+        output[index]= '\0';
+        strcat(output, "-sorted-");
+        index+=8;
+        output[index]= '\0';
 
 
 
-    /**openning the file checking its header contents to make sure it is the right format inside csv file**/
-    FILE * file = fopen(path,"r");
+        /**we have the file name without extention
+        ->now we add the temp_sort + .csv
+        **/
 
-    /**if could not open the file**/
-    if (file == NULL){
+       int lenght = strlen(temp_sort);
 
-        printf("Unable to open csv file: %s\n", name);
-        return -1;
-    }
+         i;
 
-    /**we have the file open now
-        ->get header
-        ->check header
-    **/
-    char line[1000];
-    fgets(line,1000,file);
+        for (i=0; i<lenght; i++){
 
-    /**not the right header**/
-    if (strcasecmp(line,header)!=0){
-        //printf("incorrect header in the csv file: %s\n", name);
-	fclose(file);
-        return -1;
-    }
-    fclose(file);
+           output[index] = temp_sort[i];
+           index++;
+        }
+
+	if (strstr(name,output)!=NULL){
+
+		//printf("contains\n");
+		return -1;
+
+	}
+
+	//printf("does not conatain\n");
+/*
+
+
+    start_index = name_length -5;
+    while (start_index >=0){
+		
+		printf("%c,",name[start_index]);
+		start_index--;
+
+	}
+	printf("---%d\n",strlen(output));
+*/
+
+    
     return 0;
 
 }
@@ -356,6 +375,7 @@ void get_output_name(char directory[], char name[],char output[],int check ){
 int find_csv_files(char *directory_name, char tab[]){
 
 	
+	//printf("The Directory is in method: %s\n", directory_name);
 
 	/**this is our arraylist strucutre where we add all pids of the parent children**/
 	int track=0,limit=20;
