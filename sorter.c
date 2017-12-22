@@ -50,7 +50,7 @@ int main(int argc, char * argv[]){
 	**/
 
 
-	if (argc<3){
+	if (argc<6){
 
 
         printf("NOT ENOUGH PARAMTERS\n");
@@ -58,7 +58,7 @@ int main(int argc, char * argv[]){
 	}
 
 	/**at least the directory is given**/
-	if (argc>=7){
+	if (argc>=11){
 
 
 
